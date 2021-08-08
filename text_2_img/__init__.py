@@ -33,7 +33,7 @@ def splitText(text, line_char_max, line_max):
 
 def gen(text, dirname = 'tmp', font_loc=other_font_loc, color=(0, 0, 0), 
         background=(252, 250, 222), img_size=(3600, 6400), margin=200,
-        font_size=160, padding=10, line_char_max=40, line_max=30):
+        font_size=160, padding=10, line_char_max=39, line_max=30):
     os.system('mkdir %s > /dev/null 2>&1' % dirname)
     fn_base = dirname + '/' + getFilename(text)
     result = []
@@ -45,7 +45,7 @@ def gen(text, dirname = 'tmp', font_loc=other_font_loc, color=(0, 0, 0),
         text_height = font.getsize(lines[0])[1]
         if len(texts) == 1:
             img_size = (img_size[0], 
-                len(lines) * (padding + text_height) + margin * 2)
+                len(lines) * (padding + text_height) + margin * 3)
         img = Image.new('RGB', img_size, color=background)
         for line in lines:
             ImageDraw.Draw(img).text((margin, height), line, font=font, fill=color)
