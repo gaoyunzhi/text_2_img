@@ -2,44 +2,31 @@
 # -*- coding: utf-8 -*-
 
 import text_2_img
-import album_sender
-import yaml
-from telegram.ext import Updater
-import cached_url
-from bs4 import BeautifulSoup
-from telegram_util import AlbumResult as Result
+import os
 
-with open('CREDENTIALS') as f:
-	CREDENTIALS = yaml.load(f, Loader=yaml.FullLoader)
-tele = Updater(CREDENTIALS['bot_token'], use_context=True)
-chat = tele.bot.get_chat(-1001198682178)
-# chat = tele.bot.get_chat('@web_record')
+text = '''
+【科普】【阅读障碍】
 
-def findSrc(item):
-	START_PIVOT = '"src":"'
-	END_PIVOT = '","'
-	for script in item.find_all('script'):
-		return script.text.split(START_PIVOT)[1].split(END_PIVOT)[0]
+1. 阅读障碍是一种与语言相关的学习障碍，是神经发展障碍的一种。阅读障碍主要影响读写，与智力发展无关。
 
-def sendPhoto(url, item):
-	result = Result()
-	src = findSrc(item)
-	if not src:
-		return
-	result.imgs = [src]
-	result.cap = item.find('span', itemprop='caption').text
-	album_sender.send(channel, url, result)
+2. 阅读障碍者可能会在以下任务中遇到困难：幼儿语音发展，将语句拆分为音节，将语句拆分为单词，拼写，短时记忆，阅读理解，速读，写作。阅读障碍有时与家族遗传有关。
 
-def sendPhotos(url):
-	content = cached_url.get(url, force_cache=True)
-	b = BeautifulSoup(content, features='lxml')
-	for item in b.find_all('figure'):
-		sendPhoto(url, item)
+3. 如何与阅读障碍者更好的沟通：制作多媒体信息，图文结合，使用 OpenDyslexic 字体，列出重点，划出重点，提供讲稿，提供辅助阅读工具或软件。
 
-def test(url, rotate=False):
-	result = text_2_img.get(url)
-	# print(list(result.cap))
-	album_sender.send_v2(chat, result, rotate=rotate)
+4. 阅读障碍者是人类多元性的一种，不是疾病。刨开病理视角，我们可以更容易发现阅读障碍者常常更擅长：空间思维，三维想象，创新，解决问题。
+
+5. 现有的教学方式往往并非为阅读障碍者设计。阅读障碍者需要不同的教学方式。
+
+6. 阅读障碍不是病，所以也不能被治好，也不会自动消失。在恰当教学下，阅读障碍者能够学会阅读。
+
+7. 阅读障碍往往影响到工作和学习，请关注阅读障碍者的需求，为ta们提供应有的帮助和支持。 
+
+原文： https://www.instagram.com/p/CSPxUlshkL2/
+翻译： https://t.me/twitter_translate/5501
+'''
+
+def test(text):
+	os.system('open ' + text_2_img.gen(text)[0] + ' -g')
 	
 if __name__=='__main__':
-	test('https://www.douban.com/people/bmw/status/3468428181/')
+	test(text)
