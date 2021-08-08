@@ -17,9 +17,18 @@ def getFilename(text, dirname = 'tmp'):
 other_font_loc = '~/Library/Fonts/SourceHanSerifSC-Light.otf' # 思源宋体
 
 def splitText(text, line_char_max, line_max):
+	text = text.strip()
+	lines = []
 	for line in text.split():
-		
-
+		lines += cjkwrap.fill(line, line_char_max).split('\n')
+		if not lines[0]:
+			del lines[0]
+		if len(lines) == line_max:
+			yield '\n'.join(lines).strip()
+			lines = []
+	last = '\n'.join(lines).strip()
+	if last:
+		yield last
 
 def gen(text, dirname = 'tmp', font=other_font_loc, color=(0, 0, 0), 
 		background=(252, 250, 222), img_size=(3600, 6400), margin=200,
@@ -27,7 +36,7 @@ def gen(text, dirname = 'tmp', font=other_font_loc, color=(0, 0, 0),
 	os.system('mkdir %s > /dev/null 2>&1' % dirname)
 	fn_base = dirname + '/' + getFilename(text)
 	result = []
-	for index, subText in enumerate(splitText(text, line_char_max, line_max)):
+	for index, subText in enumerate(list(splitText(text, line_char_max, line_max))):
 		img = Image.new('RGB', img_size, color=background)
 		font = ImageFont.truetype(font_filename, font_size)
 		# padding? # 换行
