@@ -44,7 +44,8 @@ def gen(text, dirname = 'tmp', font_loc=other_font_loc, color=(0, 0, 0),
         height = margin
         text_height = font.getsize(lines[0])[1]
         if len(texts) == 1:
-            img_size[1] = len(lines) * (padding + text_height) + margin * 2
+            img_size = (img_size[0], 
+                len(lines) * (padding + text_height) + margin * 2)
         img = Image.new('RGB', img_size, color=background)
         for line in lines:
             ImageDraw.Draw(img).text((margin, height), line, font=font, fill=color)
