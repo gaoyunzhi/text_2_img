@@ -31,7 +31,7 @@ def splitText(text, line_char_max, line_max):
     if last:
         yield last
 
-def gen(text, dirname = 'tmp', font=other_font_loc, color=(0, 0, 0), 
+def gen(text, dirname = 'tmp', font_loc=other_font_loc, color=(0, 0, 0), 
         background=(252, 250, 222), img_size=(3600, 6400), margin=200,
         font_size=160, padding=10, line_char_max=40, line_max=30):
     os.system('mkdir %s > /dev/null 2>&1' % dirname)
@@ -39,7 +39,7 @@ def gen(text, dirname = 'tmp', font=other_font_loc, color=(0, 0, 0),
     result = []
     for index, subText in enumerate(list(splitText(text, line_char_max, line_max))):
         img = Image.new('RGB', img_size, color=background)
-        font = ImageFont.truetype(font, font_size)
+        font = ImageFont.truetype(font_loc, font_size)
         height = margin
         lines = subText.split('\n')
         text_height = font.getsize(lines[0])[1]
