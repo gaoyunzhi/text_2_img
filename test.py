@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import web_2_album
+import text_2_img
 import album_sender
 import yaml
 from telegram.ext import Updater
@@ -37,7 +37,7 @@ def sendPhotos(url):
 		sendPhoto(url, item)
 
 def test(url, rotate=False):
-	result = web_2_album.get(url)
+	result = text_2_img.get(url)
 	# print(list(result.cap))
 	album_sender.send_v2(chat, result, rotate=rotate)
 	

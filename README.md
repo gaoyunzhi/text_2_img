@@ -1,21 +1,15 @@
-# web_2_album
+# text_2_img
 
-Return photo list and caption (markdown format) from web.
+Make image out of text.
 
 ## usage
 
 ```
-import web_2_album
-result = web_2_album.get(url)
-result.imgs
-result.video
-result.cap
-
+import text_2_img
+result = text_2_img.get(text)
+result is a list of images
 ```
-
-### Optional param
-- force_cache
 
 ## how to install
 
-`pip3 install web_2_album`
+`pip3 install text_2_img`

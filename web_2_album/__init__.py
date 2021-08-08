@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-name = 'web_2_album'
+name = 'text_2_img'
 
 import cached_url
 from bs4 import BeautifulSoup
