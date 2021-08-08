@@ -5,11 +5,11 @@
 # License: GPL <http://www.gnu.org/copyleft/gpl.html>
 
 from PIL import Image, ImageDraw, ImageFont
-
+import textwrap
+import cjkwrap
 
 class ImageText(object):
-    def __init__(self, filename_or_size, mode='RGBA', background=(0, 0, 0, 0),
-                 encoding='utf8'):
+    def __init__(self, filename_or_size, mode='RGB', background=(0, 0, 0)):
         if isinstance(filename_or_size, str):
             self.filename = filename_or_size
             self.image = Image.open(self.filename)
@@ -19,7 +19,6 @@ class ImageText(object):
             self.image = Image.new(mode, self.size, color=background)
             self.filename = None
         self.draw = ImageDraw.Draw(self.image)
-        self.encoding = encoding
 
     def save(self, filename=None):
         self.image.save(filename or self.filename)
@@ -43,8 +42,6 @@ class ImageText(object):
     def write_text(self, loc, text, font_filename, font_size=11,
                    color=(0, 0, 0), max_width=None, max_height=None):
         x, y = loc
-        # if isinstance(text, str):
-        #     text = text.decode(self.encoding)
         if font_size == 'fill' and \
            (max_width is not None or max_height is not None):
             font_size = self.get_font_size(text, font_filename, max_width,
@@ -64,23 +61,12 @@ class ImageText(object):
 
     def write_text_box(self, loc, text, box_width, font_filename,
                        font_size=11, color=(0, 0, 0), place='left',
-                       justify_last_line=False):
+                       justify_last_line=False, line_char_max = 40):
         x, y = loc
         lines = []
-        line = []
-        words = text.split()
-        for word in words:
-            new_line = ' '.join(line + [word])
-            size = self.get_text_size(font_filename, font_size, new_line)
-            text_height = size[1]
-            if size[0] <= box_width:
-                line.append(word)
-            else:
-                lines.append(line)
-                line = [word]
-        if line:
-            lines.append(line)
-        lines = [' '.join(line) for line in lines if line]
+        for line in text.split('\n'):
+            lines += cjkwrap.fill(line, line_char_max).split('\n')
+        text_height = self.get_text_size(font_filename, font_size, lines[0])[1]
         height = y
         for index, line in enumerate(lines):
             height += text_height
