@@ -4,9 +4,7 @@
 # Copyright 2011 Álvaro Justen [alvarojusten at gmail dot com]
 # License: GPL <http://www.gnu.org/copyleft/gpl.html>
 
-import Image
-import ImageDraw
-import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 
 class ImageText(object):
@@ -42,10 +40,11 @@ class ImageText(object):
             font_size += 1
             text_size = self.get_text_size(font, font_size, text)
 
-    def write_text(self, (x, y), text, font_filename, font_size=11,
+    def write_text(self, loc, text, font_filename, font_size=11,
                    color=(0, 0, 0), max_width=None, max_height=None):
-        if isinstance(text, str):
-            text = text.decode(self.encoding)
+        x, y = loc
+        # if isinstance(text, str):
+        #     text = text.decode(self.encoding)
         if font_size == 'fill' and \
            (max_width is not None or max_height is not None):
             font_size = self.get_font_size(text, font_filename, max_width,
@@ -63,9 +62,10 @@ class ImageText(object):
         font = ImageFont.truetype(font_filename, font_size)
         return font.getsize(text)
 
-    def write_text_box(self, (x, y), text, box_width, font_filename,
+    def write_text_box(self, loc, text, box_width, font_filename,
                        font_size=11, color=(0, 0, 0), place='left',
                        justify_last_line=False):
+        x, y = loc
         lines = []
         line = []
         words = text.split()
