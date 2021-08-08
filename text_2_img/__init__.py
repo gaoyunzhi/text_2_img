@@ -37,12 +37,15 @@ def gen(text, dirname = 'tmp', font_loc=other_font_loc, color=(0, 0, 0),
     os.system('mkdir %s > /dev/null 2>&1' % dirname)
     fn_base = dirname + '/' + getFilename(text)
     result = []
-    for index, subText in enumerate(list(splitText(text, line_char_max, line_max))):
-        img = Image.new('RGB', img_size, color=background)
+    texts = list(splitText(text, line_char_max, line_max))
+    for index, subText in enumerate(texts):
+        lines = subText.split('\n')
         font = ImageFont.truetype(font_loc, font_size)
         height = margin
-        lines = subText.split('\n')
         text_height = font.getsize(lines[0])[1]
+        if len(texts) == 1:
+            img_size[1] = len(lines) * (padding + text_height) + margin * 2
+        img = Image.new('RGB', img_size, color=background)
         for line in lines:
             ImageDraw.Draw(img).text((margin, height), line, font=font, fill=color)
             height += text_height + padding
