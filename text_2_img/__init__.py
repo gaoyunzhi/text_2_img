@@ -36,7 +36,6 @@ def splitText(text, line_char_max, line_max, font, width, style):
     lines = []
     for line in text.split('\n'):
         new_lines = Paragraph(line, style).breakLinesCJK(width).lines
-        print(new_lines)
         new_lines = [getLineItemText(item) for item in new_lines] or ['']
         if len(lines) + len(new_lines) > line_max:
             yield '\n'.join(lines).strip()

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="text_2_img",
-    version="0.0.7",
+    version="0.0.8",
     author="Yunzhi Gao",
     author_email="gaoyunzhi@gmail.com",
     description="Text to Image",
