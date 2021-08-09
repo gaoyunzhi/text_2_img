@@ -49,7 +49,7 @@ def splitText(text, line_char_max, line_max, font, width, style):
 
 def gen(text, dirname = 'tmp', font_loc=otf_loc, fft_loc = fft_loc, color=(0, 0, 0), 
         background=(252, 250, 222), img_size=(3600, 6400), margin=200,
-        font_size=160, padding=20, line_char_max=39, line_max=28):
+        font_size=160, padding=20, line_char_max=39, line_max=27):
     pdfmetrics.registerFont(TTFont('myfont', fft_loc))  #注册字体
     style = ParagraphStyle(fontName='myfont', name='myfont', fontSize=font_size)
     os.system('mkdir %s > /dev/null 2>&1' % dirname)
