@@ -34,16 +34,26 @@ def getLineItemText(item):
 def splitText(text, line_char_max, line_max, font, width, style):
     text = text.strip()
     lines = []
+    total_lines = 0
     for line in text.split('\n'):
         new_lines = Paragraph(line, style).breakLinesCJK(width).lines
         new_lines = [getLineItemText(item) for item in new_lines] or ['']
-        if len(lines) + len(new_lines) > line_max:
-            yield '\n'.join(lines).strip()
-            lines = []
-        lines += new_lines
-        if not lines[0]:
-            del lines[0]
-    last = '\n'.join(lines).strip()
+        lines.append(new_lines)
+        total_lines += len(new_lines)
+    parts = int((total_lines + line_max - 1) / line_max)
+    current_lines = []
+    current_count = 0
+    target = (total_lines / parts) * 1.2
+    for long_line in lines:
+        if current_count + len(long_line) > target:
+            to_yield = '\n'.join(current_lines).strip()
+            if to_yield:
+                yield to_yield
+                current_lines = []
+                target += total_lines / parts
+        current_count += len(long_line)
+        current_lines += long_line
+    last = '\n'.join(current_lines).strip()
     if last:
         yield last
 
@@ -61,9 +71,8 @@ def gen(text, dirname = 'tmp', font_loc=otf_loc, fft_loc = fft_loc, color=(0, 0,
         lines = subText.split('\n')
         height = margin
         text_height = font.getsize(lines[0])[1]
-        if len(texts) == 1:
-            img_size = (img_size[0], 
-                int(len(lines) * (padding + text_height) + margin * 2.5))
+        img_size = (img_size[0], 
+            int(len(lines) * (padding + text_height) + margin * 2.5))
         img = Image.new('RGB', img_size, color=background)
         for line in lines:
             ImageDraw.Draw(img).text((margin, height), line, font=font, fill=color)
