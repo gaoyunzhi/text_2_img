@@ -20,7 +20,7 @@ fft_loc = 'SourceHanSerifCN-Light.ttf'
 # styles.add(style)
 
 def getFilename(text, dirname = 'tmp'):
-    text = re.sub(r'[-\s]+', '', text)
+    text = re.sub(r'[-/\s]+', '', text)
     h = hashlib.sha224(text.encode('utf-8')).hexdigest()[:3]
     return text[:10] + '_' + h
 

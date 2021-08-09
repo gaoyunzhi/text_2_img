@@ -25,6 +25,7 @@ text = '''【科普】【阅读障碍】
 '''
 
 def test(text):
+	# print(text_2_img.getFilename('ss/\nbb.sfsj'))
 	os.system('open ' + text_2_img.gen(text)[0] + ' -g')
 	
 if __name__=='__main__':
