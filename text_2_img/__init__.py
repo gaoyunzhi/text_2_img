@@ -24,12 +24,20 @@ def getFilename(text, dirname = 'tmp'):
     h = hashlib.sha224(text.encode('utf-8')).hexdigest()[:3]
     return text[:10] + '_' + h
 
+def getLineItemText(item):
+    try:
+        return item[1][0]
+    except:
+        ...
+    return item.words[0].text
+
 def splitText(text, line_char_max, line_max, font, width, style):
     text = text.strip()
     lines = []
     for line in text.split('\n'):
         new_lines = Paragraph(line, style).breakLinesCJK(width).lines
-        new_lines = [item[1][0] for item in new_lines] or ['']
+        print(new_lines)
+        new_lines = [getLineItemText(item) for item in new_lines] or ['']
         if len(lines) + len(new_lines) > line_max:
             yield '\n'.join(lines).strip()
             lines = []
