@@ -13,12 +13,12 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 
-otf_loc = '~/Library/Fonts/SourceHanSerifSC-Light.otf' # 思源宋体
-fft_loc = 'SourceHanSerifCN-Light.ttf'
+# otf_loc = '~/Library/Fonts/SourceHanSerifSC-Light.otf' # 思源宋体
+# fft_loc = 'SourceHanSerifCN-Light.ttf'
 
 # otf_loc = '~/Library/Fonts/SourceHanSansCN-Normal.otf' # 思源黑体
-# otf_loc = '~/Library/Fonts/SourceHanSansCN-Light.otf' # 思源黑体
-# fft_loc = 'SourceHanSansCN-VF.ttf'
+otf_loc = '~/Library/Fonts/SourceHanSansCN-Light.otf' # 思源黑体
+fft_loc = 'SourceHanSansCN-VF.ttf'
 
 def getFilename(text, dirname = 'tmp'):
     text = re.sub(r'[-/\s]+', '', text)
