@@ -15,9 +15,10 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 otf_loc = '~/Library/Fonts/SourceHanSerifSC-Light.otf' # 思源宋体
 fft_loc = 'SourceHanSerifCN-Light.ttf'
-# styles = getSampleStyleSheet()
-# style = ParagraphStyle(fontName='myfont', name='myfont', leading=20, fontSize=200)
-# styles.add(style)
+
+# otf_loc = '~/Library/Fonts/SourceHanSansCN-Normal.otf' # 思源黑体
+# otf_loc = '~/Library/Fonts/SourceHanSansCN-Light.otf' # 思源黑体
+# fft_loc = 'SourceHanSansCN-VF.ttf'
 
 def getFilename(text, dirname = 'tmp'):
     text = re.sub(r'[-/\s]+', '', text)
