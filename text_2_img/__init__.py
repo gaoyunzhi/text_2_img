@@ -35,32 +35,25 @@ def getLineItemText(item):
 def splitText(text, line_char_max, line_max, font, width, style):
     text = text.strip()
     lines = []
-    total_lines = 0
     for line in text.split('\n'):
         new_lines = Paragraph(line, style).breakLinesCJK(width).lines
         new_lines = [getLineItemText(item) for item in new_lines] or ['']
-        lines.append(new_lines)
-        total_lines += len(new_lines)
-    parts = int((total_lines + line_max - 1) / line_max)
+        lines += new_lines
     current_lines = []
-    current_count = 0
-    target = (total_lines / parts) * 1.2
-    for long_line in lines:
-        if current_count + len(long_line) > target:
-            to_yield = '\n'.join(current_lines).strip()
-            if to_yield:
-                yield to_yield
-                current_lines = []
-                target += total_lines / parts
-        current_count += len(long_line)
-        current_lines += long_line
+    for line in lines:
+        if not line and not current_lines:
+            continue
+        current_lines.append(line)
+        if len(current_lines) == line_max:
+            yield '\n'.join(current_lines).strip()
+            current_lines = []
     last = '\n'.join(current_lines).strip()
     if last:
         yield last
 
 def gen(text, dirname = 'tmp', font_loc=otf_loc, fft_loc = fft_loc, color=(0, 0, 0), 
         background=(252, 250, 222), img_size=(3600, 6400), margin=200,
-        font_size=160, padding=20, line_char_max=39, line_max=27):
+        font_size=160, padding=30, line_char_max=39, line_max=24):
     pdfmetrics.registerFont(TTFont('myfont', fft_loc))  #注册字体
     style = ParagraphStyle(fontName='myfont', name='myfont', fontSize=font_size)
     os.system('mkdir %s > /dev/null 2>&1' % dirname)
@@ -73,11 +66,12 @@ def gen(text, dirname = 'tmp', font_loc=otf_loc, fft_loc = fft_loc, color=(0, 0,
         height = margin
         text_height = font.getsize(lines[0])[1]
         img_size = (img_size[0], 
-            int(len(lines) * (padding + text_height) + margin * 2.5))
+            int(line_max * (padding + text_height) + margin * 2.5))
         img = Image.new('RGB', img_size, color=background)
-        for line in lines:
+        for line in (lines + [''] * (line_max - len(lines))):
             ImageDraw.Draw(img).text((margin, height), line, font=font, fill=color)
             height += text_height + padding
+            ImageDraw.Draw(img).line((margin, height, img_size[0] - 1.5 * margin, height), fill=80)
         fn = '%s_%d.png' % (fn_base, index)
         img.save(fn)
         result.append(fn)
