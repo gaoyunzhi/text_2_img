@@ -61,6 +61,8 @@ def gen(text, dirname = 'tmp', font_loc=otf_loc, fft_loc = fft_loc, color=(0, 0,
     font = ImageFont.truetype(font_loc, font_size)
     result = []
     texts = list(splitText(text, line_char_max, line_max, font, img_size[0] - margin * 2.5, style))
+    if len(texts) = 1:
+        line_max = len(texts[0].split('\n'))
     for index, subText in enumerate(texts):
         lines = subText.split('\n')
         height = margin
