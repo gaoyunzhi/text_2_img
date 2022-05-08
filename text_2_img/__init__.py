@@ -17,8 +17,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 # fft_loc = 'SourceHanSerifCN-Light.ttf'
 
 # otf_loc = '~/Library/Fonts/SourceHanSansCN-Normal.otf' # 思源黑体
-otf_loc = '~/Library/Fonts/SourceHanSansCN-Light.otf' # 思源黑体
-fft_loc = 'SourceHanSansCN-VF.ttf'
+# otf_loc = '~/Library/Fonts/SourceHanSansCN-Light.otf' # 思源黑体
+# fft_loc = 'SourceHanSansCN-VF.ttf'
+
+# otf_loc = '~/Library/Fonts/NotoSansSC-Regular.otf'
+otf_loc = '~/Library/Fonts/NotoSansSC-Light.otf'
+fft_loc = 'NotoSansSC-VF.ttf'
 
 def getFilename(text, dirname = 'tmp'):
     text = re.sub(r'[-/\s]+', '', text)
